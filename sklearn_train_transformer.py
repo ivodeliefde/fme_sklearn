@@ -1,6 +1,6 @@
 ﻿#============================================================================
 #
-#  Name     : sklearn_transformer.py
+#  Name     : sklearn_train_transformer.py
 #  
 #  System   : FME Custom Transformer
 #  
@@ -53,11 +53,8 @@ class MachineLearningModelTrainer(Transformer):
       for n in feature.getAllAttributeNames():
          if n in ['_creation_instance', 'fme_feature_type', 'fme_geometry', 'fme_type']:
             continue
-         self.logger.logMessageString(f"Name: {n}", fmeobjects.FME_INFORM)
-         self.logger.logMessageString(f"Name in ignore list: {n in ['_creation_instance', 'fme_feature_type', 'fme_geometry', 'fme_type']}", fmeobjects.FME_INFORM)
          record[n] = [feature.getAttribute(n)]
-      self.logger.logMessageString(f"record: {record}", fmeobjects.FME_INFORM)
-
+      
       target = record.pop(self.target_variable, None)
       if self.y is None:
          self.y = np.array(target)
@@ -66,20 +63,14 @@ class MachineLearningModelTrainer(Transformer):
       
       if self.x is None:
          self.x = pd.DataFrame(data=record)
-         self.logger.logMessageString(f"First record: {record}", fmeobjects.FME_INFORM)
       else:
          self.x = self.x.append(pd.DataFrame(data=record))
-      self.logger.logMessageString(f"{pd.DataFrame(data=record)}", fmeobjects.FME_INFORM)
-      self.logger.logMessageString(f"X: {self.x}", fmeobjects.FME_INFORM)
-
+      
       # Send the feature on its way
       self.pyoutput(feature)
       self.logger.logMessageString("Feature processed", fmeobjects.FME_INFORM)
 
    def close(self):
-      self.logger.logMessageString(f"X head: {self.x.head()}", fmeobjects.FME_INFORM)
-      self.logger.logMessageString(f"X shape: {self.x.shape}", fmeobjects.FME_INFORM)
-      self.logger.logMessageString(f"Y shape: {self.y.shape}", fmeobjects.FME_INFORM)
       # Fit data to model
       self.sk.model.fit(X=self.x, y=self.y)
       # Export model

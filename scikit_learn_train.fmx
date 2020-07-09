@@ -52,17 +52,17 @@ TOOLTIP_END
 DESCRIPTION_START
 Takes an attribute to predict and uses Python's scikit-learn to train a machine learning model. 
 
-Implementation in sklearn_transformer.py
+Implementation in sklearn_train_transformer.py
 DESCRIPTION_END
  
 TEMPLATE_START
 
 DYNAMIC_FUNCTION_CONFIGURATION Python FMEOBJECTS
 
-DYNAMIC_FUNCTION_CONFIGURATION Python import sklearn_transformer
+DYNAMIC_FUNCTION_CONFIGURATION Python import sklearn_train_transformer
 
-DYNAMIC_FUNCTION_CONFIGURATION Python "sklearn_transformer.__instance__$(FME_UUID) =
-   sklearn_transformer.MachineLearningModelTrainer('$(FME_UUID)',{
+DYNAMIC_FUNCTION_CONFIGURATION Python "sklearn_train_transformer.__instance__$(FME_UUID) =
+   sklearn_train_transformer.MachineLearningModelTrainer('$(FME_UUID)',{
     'model_type':'$(model_type)',
     'model_architecture':'$(model_architecture)',
     'target_variable':'$(target_variable)',
@@ -73,7 +73,7 @@ FACTORY_DEF * PythonFactory
    FACTORY_NAME $(XFORMER_NAME)
    PYTHON_NAMESPACE FMEOBJECTS
    $(INPUT_LINES)
-   SYMBOL_NAME sklearn_transformer.__instance__$(FME_UUID)
+   SYMBOL_NAME sklearn_train_transformer.__instance__$(FME_UUID)
    OUTPUT PYOUTPUT FEATURE_TYPE $(OUTPUT_OUTPUT_FTYPE)
 
 TEMPLATE_END
