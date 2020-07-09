@@ -1,0 +1,74 @@
+# =========================================================================
+
+TRANSFORMER_NAME: CenterOfMassCalculator_Python
+ 
+CATEGORY: Manipulators
+
+VERSION: 0
+
+INPUT_TAGS: <BLANK>
+
+OUTPUT_TAGS: OUTPUT
+
+PRESERVES_ATTRIBUTES: yes
+
+PARAMETER_NAME: TRANSFORMER_GROUP
+PARAMETER_TYPE: GROUP XFORMER_NAME
+PARAMETER_PROMPT: Transformer
+PARAMETER_DEFAULT: 
+
+PARAMETER_NAME: PARAMETER_GROUP
+PARAMETER_TYPE: GROUP X_ATTR%Y_ATTR%Z_ATTR
+PARAMETER_PROMPT: Parameters
+PARAMETER_DEFAULT: 
+
+PARAMETER_NAME: X_ATTR
+PARAMETER_TYPE: NEW_ATTR
+PARAMETER_PROMPT: X Average Attribute:
+PARAMETER_DEFAULT: _x_center
+
+PARAMETER_NAME: Y_ATTR
+PARAMETER_TYPE: NEW_ATTR
+PARAMETER_PROMPT: Y Average Attribute:
+PARAMETER_DEFAULT: _y_center
+
+PARAMETER_NAME: Z_ATTR
+PARAMETER_TYPE: NEW_ATTR
+PARAMETER_PROMPT: Z Average Attribute:
+PARAMETER_DEFAULT: _z_center
+
+TOOLTIP_START
+X Coordinate Name: $(X_ATTR)
+Y Coordinate Name: $(Y_ATTR)
+Z Coordinate Name: $(Z_ATTR)
+TOOLTIP_END
+
+DESCRIPTION_START
+Calculates the averages of the X, Y, and Z coordinates of the feature and returns them in the attributes named by the X, Y, and Z Coordinate Attribute parameters.
+
+Implementation in CenterOfMassCalculator.py
+DESCRIPTION_END
+ 
+TEMPLATE_START
+
+DYNAMIC_FUNCTION_CONFIGURATION Python FMEOBJECTS
+
+DYNAMIC_FUNCTION_CONFIGURATION Python import CenterOfMassCalculator
+
+DYNAMIC_FUNCTION_CONFIGURATION Python "CenterOfMassCalculator.__instance__$(FME_UUID) =
+   CenterOfMassCalculator.CenterOfMassCalculator('$(FME_UUID)',{
+    'X_ATTR':'$(X_ATTR)',
+    'Y_ATTR':'$(Y_ATTR)',
+    'Z_ATTR':'$(Z_ATTR)',
+    None:None})"
+
+FACTORY_DEF * PythonFactory
+   FACTORY_NAME $(XFORMER_NAME)
+   PYTHON_NAMESPACE FMEOBJECTS
+   $(INPUT_LINES)
+   SYMBOL_NAME CenterOfMassCalculator.__instance__$(FME_UUID)
+   OUTPUT PYOUTPUT FEATURE_TYPE $(OUTPUT_OUTPUT_FTYPE)
+
+TEMPLATE_END
+
+
