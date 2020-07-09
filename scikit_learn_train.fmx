@@ -1,6 +1,6 @@
 # =========================================================================
 
-TRANSFORMER_NAME: CenterOfMassCalculator_Python
+TRANSFORMER_NAME: sklearn_train
  
 CATEGORY: Manipulators
 
@@ -18,55 +18,62 @@ PARAMETER_PROMPT: Transformer
 PARAMETER_DEFAULT: 
 
 PARAMETER_NAME: PARAMETER_GROUP
-PARAMETER_TYPE: GROUP X_ATTR%Y_ATTR%Z_ATTR
+PARAMETER_TYPE: GROUP model_type%model_architecture%target_variable%output_path
 PARAMETER_PROMPT: Parameters
 PARAMETER_DEFAULT: 
 
-PARAMETER_NAME: X_ATTR
+PARAMETER_NAME: model_type
 PARAMETER_TYPE: NEW_ATTR
-PARAMETER_PROMPT: X Average Attribute:
-PARAMETER_DEFAULT: _x_center
+PARAMETER_PROMPT: The kind of output the model should deliver (classification, regression or clustering are currently implemented):
+PARAMETER_DEFAULT: 
 
-PARAMETER_NAME: Y_ATTR
+PARAMETER_NAME: model_architecture
 PARAMETER_TYPE: NEW_ATTR
-PARAMETER_PROMPT: Y Average Attribute:
-PARAMETER_DEFAULT: _y_center
+PARAMETER_PROMPT: The method the model should use (for example, linear, tree or svm):
+PARAMETER_DEFAULT: 
 
-PARAMETER_NAME: Z_ATTR
+PARAMETER_NAME: target_variable
 PARAMETER_TYPE: NEW_ATTR
-PARAMETER_PROMPT: Z Average Attribute:
-PARAMETER_DEFAULT: _z_center
+PARAMETER_PROMPT: The attribute containing the data to predict (the dependent variable):
+PARAMETER_DEFAULT: 
+
+PARAMETER_NAME: output_path
+PARAMETER_TYPE: NEW_ATTR
+PARAMETER_PROMPT: The location where the machine learning model will be stored:
+PARAMETER_DEFAULT: 
 
 TOOLTIP_START
-X Coordinate Name: $(X_ATTR)
-Y Coordinate Name: $(Y_ATTR)
-Z Coordinate Name: $(Z_ATTR)
+Model type: $(model_type)
+Model architecture: $(model_architecture)
+Y variable: $(target_variable)
+Output path ML model: $(output_path)
 TOOLTIP_END
 
 DESCRIPTION_START
-Calculates the averages of the X, Y, and Z coordinates of the feature and returns them in the attributes named by the X, Y, and Z Coordinate Attribute parameters.
+Takes an attribute to predict and uses Python's scikit-learn to train a machine learning model. 
 
-Implementation in CenterOfMassCalculator.py
+Implementation in sklearn_transformer.py
 DESCRIPTION_END
  
 TEMPLATE_START
 
 DYNAMIC_FUNCTION_CONFIGURATION Python FMEOBJECTS
 
-DYNAMIC_FUNCTION_CONFIGURATION Python import CenterOfMassCalculator
+DYNAMIC_FUNCTION_CONFIGURATION Python import sklearn_transformer
 
-DYNAMIC_FUNCTION_CONFIGURATION Python "CenterOfMassCalculator.__instance__$(FME_UUID) =
-   CenterOfMassCalculator.CenterOfMassCalculator('$(FME_UUID)',{
-    'X_ATTR':'$(X_ATTR)',
-    'Y_ATTR':'$(Y_ATTR)',
-    'Z_ATTR':'$(Z_ATTR)',
+DYNAMIC_FUNCTION_CONFIGURATION Python "sklearn_transformer.__instance__$(FME_UUID) =
+   sklearn_transformer.MachineLearningModelTrainer('$(FME_UUID)',{
+    'model_type':'$(model_type)',
+    'model_architecture':'$(model_architecture)',
+    'target_variable':'$(target_variable)',
+    'output_path':'$(output_path)',
     None:None})"
 
 FACTORY_DEF * PythonFactory
    FACTORY_NAME $(XFORMER_NAME)
    PYTHON_NAMESPACE FMEOBJECTS
    $(INPUT_LINES)
-   SYMBOL_NAME CenterOfMassCalculator.__instance__$(FME_UUID)
+   SYMBOL_NAME sklearn_transformer.__instance__$(FME_UUID)
    OUTPUT PYOUTPUT FEATURE_TYPE $(OUTPUT_OUTPUT_FTYPE)
 
 TEMPLATE_END
