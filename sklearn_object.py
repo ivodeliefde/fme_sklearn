@@ -2,6 +2,10 @@ from sklearn import linear_model, tree, svm, cluster
 from joblib import dump, load
 
 class sklearn_model():
+    """
+    Scikit-learn model wrapper for the use in FME. 
+    """
+
     def __init__(self):
         self.model_types = ["regression","classification", "clustering"]
         self.model_architectures = {"regression":["linear","tree","svm","sgd"], "classification": ["tree","svm","sgd"], "clustering": ["k-means"]}
