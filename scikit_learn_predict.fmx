@@ -1,0 +1,60 @@
+# =========================================================================
+
+TRANSFORMER_NAME: sklearn_predict
+ 
+CATEGORY: Manipulators
+
+VERSION: 0
+
+INPUT_TAGS: <BLANK>
+
+OUTPUT_TAGS: OUTPUT
+
+PRESERVES_ATTRIBUTES: yes
+
+PARAMETER_NAME: TRANSFORMER_GROUP
+PARAMETER_TYPE: GROUP XFORMER_NAME
+PARAMETER_PROMPT: Transformer
+PARAMETER_DEFAULT: 
+
+PARAMETER_NAME: PARAMETER_GROUP
+PARAMETER_TYPE: GROUP input_path
+PARAMETER_PROMPT: Parameters
+PARAMETER_DEFAULT: 
+
+PARAMETER_NAME: input_path
+PARAMETER_TYPE: NEW_ATTR
+PARAMETER_PROMPT: The location of the machine learning model to be loaded:
+PARAMETER_DEFAULT: 
+
+TOOLTIP_START
+Input path ML model: $(input_path)
+TOOLTIP_END
+
+DESCRIPTION_START
+Takes a trained model from Python's scikit-learn to make predictions in FME. 
+
+Implementation in sklearn_predict_transformer.py
+DESCRIPTION_END
+ 
+TEMPLATE_START
+
+DYNAMIC_FUNCTION_CONFIGURATION Python FMEOBJECTS
+
+DYNAMIC_FUNCTION_CONFIGURATION Python import sklearn_predict_transformer
+
+DYNAMIC_FUNCTION_CONFIGURATION Python "sklearn_predict_transformer.__instance__$(FME_UUID) =
+   sklearn_predict_transformer.MachineLearningModelTrainer('$(FME_UUID)',{
+    'input_path':'$(input_path)',
+    None:None})"
+
+FACTORY_DEF * PythonFactory
+   FACTORY_NAME $(XFORMER_NAME)
+   PYTHON_NAMESPACE FMEOBJECTS
+   $(INPUT_LINES)
+   SYMBOL_NAME sklearn_predict_transformer.__instance__$(FME_UUID)
+   OUTPUT PYOUTPUT FEATURE_TYPE $(OUTPUT_OUTPUT_FTYPE)
+
+TEMPLATE_END
+
+

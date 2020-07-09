@@ -61,10 +61,16 @@ class sklearn_model():
             raise f"Combination of model type '{model_type}' and architecture '{model_architecture}' is invalid."
 
     def export_model(self, path="fme_model"):
-        self.export_path = path
+        """
+        Function to export the model to a joblib file.  
+        """
+        self.export_path = path.replace(".joblib","")
         dump(self.model, f"{path}.joblib")
     
     def import_model(self, path="fme_model.joblib"):
+        """
+        Function to import a model from a joblib file.  
+        """
         self.import_path = path
         self.model = load(path)
 
