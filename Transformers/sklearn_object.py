@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from sklearn import linear_model, tree, svm, cluster
 from joblib import dump, load
 
@@ -60,12 +61,11 @@ class sklearn_model():
         else:
             raise f"Combination of model type '{model_type}' and architecture '{model_architecture}' is invalid."
 
-    def export_model(self, path="fme_model"):
+    def export_model(self, path="fme_model.joblib"):
         """
         Function to export the model to a joblib file.  
         """
-        self.export_path = path.replace(".joblib","")
-        dump(self.model, f"{path}.joblib")
+        dump(self.model, f"{path}")
     
     def import_model(self, path="fme_model.joblib"):
         """
