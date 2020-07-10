@@ -33,7 +33,7 @@ release = '0'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.githubpages',
+    #'sphinx.ext.githubpages',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
