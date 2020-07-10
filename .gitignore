@@ -3,3 +3,6 @@ __pycache__
 *.joblib
 *.fmw.recover
 *.log
+.__pycache__
+*.data
+.pytest_cache
