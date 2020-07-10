@@ -29,9 +29,9 @@ class sklearn_model():
         Initialise an Scikit-learn model. 
 
         Keyword arguments:
-        model_type -- the kind of output the model should deliver (classification, regression or clustering are currently implemented)
-        model_architecture -- the method the model should use (for example, linear, tree or svm)
-        *args & **kwargs -- any additional arguments are directly passed on to the scikit-learn model. 
+         -  model_type -- the kind of output the model should deliver (classification, regression or clustering are currently implemented)
+         -  model_architecture -- the method the model should use (for example, linear, tree or svm)
+         -  args & kwargs -- any additional arguments are directly passed on to the scikit-learn model. 
         """
         self.model_type = model_type
         self.model_architecture = model_architecture      
@@ -59,7 +59,7 @@ class sklearn_model():
             else:
                 self.model = cluster.KMeans(*args, **kwargs)
         else:
-            raise f"Combination of model type '{model_type}' and architecture '{model_architecture}' is invalid."
+            raise ValueError(f"Combination of model type '{model_type}' and architecture '{model_architecture}' is invalid.")
 
     def export_model(self, path="fme_model.joblib"):
         """
