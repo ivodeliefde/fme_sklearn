@@ -67,17 +67,17 @@ def test_export_model():
     fme_ml.create_model("clustering", "k-means")
     fme_ml.export_model()
     assert os.path.isfile("fme_model.joblib")
-    fme_ml.export_model("test")
+    fme_ml.export_model("test.joblib")
     assert os.path.isfile("test.joblib")
 
     # Check if overwrite is possible
-    fme_ml.export_model("test")
+    fme_ml.export_model("test.joblib")
     assert os.path.isfile("test.joblib")
 
 def test_import_model():
     fme_ml1 = sklearn_model()
     fme_ml1.create_model("clustering", "k-means")
-    fme_ml1.export_model("test")
+    fme_ml1.export_model("test.joblib")
     fme_ml2 = sklearn_model()
     fme_ml2.import_model("test.joblib")
     assert isinstance(fme_ml2.model, cluster.KMeans)

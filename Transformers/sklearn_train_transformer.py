@@ -39,7 +39,8 @@ class MachineLearningModelTrainer(Transformer):
       self.target_variable = self.paramMap()["target_variable"]
       self.model_type = self.paramMap()["model_type"]
       self.model_architecture = self.paramMap()["model_architecture"]
-      self.output_path = self.paramMap()["output_path"]
+      self.output_path = eval(repr(self.paramMap()["output_path"]))
+      self.logger.logMessageString("input for sklearn model: {self.model_type} {self.output_path}", fmeobjects.FME_INFORM)
       self.sk.create_model(self.model_type, self.model_architecture)
       self.x = None
       self.y = None

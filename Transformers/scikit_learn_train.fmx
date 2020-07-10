@@ -23,22 +23,22 @@ PARAMETER_PROMPT: Parameters
 PARAMETER_DEFAULT: 
 
 PARAMETER_NAME: model_type
-PARAMETER_TYPE: NEW_ATTR
+PARAMETER_TYPE: LOOKUP_CHOICE Regression,regression%Classification,classification%Clustering,clustering
 PARAMETER_PROMPT: The kind of output the model should deliver (classification, regression or clustering are currently implemented):
 PARAMETER_DEFAULT: 
 
 PARAMETER_NAME: model_architecture
-PARAMETER_TYPE: NEW_ATTR
+PARAMETER_TYPE: LOOKUP_CHOICE Linear model,linear%Decision Tree,tree%Support Vector Machine,svm%Stochastic Gradient Descent,sgd%K-means Clustering,k-means
 PARAMETER_PROMPT: The method the model should use (for example, linear, tree or svm):
 PARAMETER_DEFAULT: 
 
 PARAMETER_NAME: target_variable
-PARAMETER_TYPE: NEW_ATTR
+PARAMETER_TYPE: ATTR
 PARAMETER_PROMPT: The attribute containing the data to predict (the dependent variable):
 PARAMETER_DEFAULT: 
 
 PARAMETER_NAME: output_path
-PARAMETER_TYPE: NEW_ATTR
+PARAMETER_TYPE: FILENAME joblib|*.joblib|*.JOBLIB
 PARAMETER_PROMPT: The location where the machine learning model will be stored:
 PARAMETER_DEFAULT: 
 
