@@ -67,9 +67,12 @@ class MachineLearningModelTrainer(Transformer):
       
       # Send the feature on its way
       self.pyoutput(feature)
-      self.logger.logMessageString("Feature processed", fmeobjects.FME_INFORM)
 
    def close(self):
+      """
+      Close the transformer by fitting the model and exporting it to a joblib file.
+      """
+
       # Fit data to model
       self.logger.logMessageString("Fit Scikit-learn model", fmeobjects.FME_INFORM)
       self.sk.model.fit(X=self.x, y=self.y)

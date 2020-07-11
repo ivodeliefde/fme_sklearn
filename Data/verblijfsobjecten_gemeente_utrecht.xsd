@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns:fme="http://www.safe.com/gml/fme" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.safe.com/gml/fme" elementFormDefault="qualified">
+<import namespace="http://www.opengis.net/gml" schemaLocation="http://schemas.opengis.net/gml/3.1.1/base/gml.xsd"/>
+<element name="verblijfsobject" type="fme:verblijfsobjectType" substitutionGroup="gml:_Feature"/>
+<complexType name="verblijfsobjectType">
+<complexContent>
+<extension base="gml:AbstractFeatureType">
+<sequence>
+<element name="gml_parent_id" minOccurs="0" type="string"/>
+<element name="gml_parent_property" minOccurs="0" type="string"/>
+<element name="geometrie" minOccurs="0" type="string"/>
+<element name="gid" minOccurs="0" type="long"/>
+<element name="identificatie" minOccurs="0" type="string"/>
+<element name="oppervlakte" minOccurs="0" type="long"/>
+<element name="status" minOccurs="0" type="string"/>
+<element name="gebruiksdoel" minOccurs="0" type="string"/>
+<element name="openbare_ruimte" minOccurs="0" type="string"/>
+<element name="huisnummer" minOccurs="0" type="string"/>
+<element name="huisletter" minOccurs="0" type="string"/>
+<element name="toevoeging" minOccurs="0" type="string"/>
+<element name="postcode" minOccurs="0" type="string"/>
+<element name="woonplaats" minOccurs="0" type="string"/>
+<element name="bouwjaar" minOccurs="0" type="string"/>
+<element name="pandidentificatie" minOccurs="0" type="string"/>
+<element name="pandstatus" minOccurs="0" type="string"/>
+<element name="rdf_seealso" minOccurs="0" type="string"/>
+<element name="fme_geometry" minOccurs="0">
+<simpleType>
+<restriction base="string">
+<maxLength value="200"/>
+</restriction>
+</simpleType></element>
+<element ref="gml:pointProperty" minOccurs="0"/>
+<element ref="gml:multiPointProperty" minOccurs="0"/>
+</sequence>
+</extension>
+</complexContent>
+</complexType>
+</schema>
