@@ -23,7 +23,7 @@ PARAMETER_PROMPT: Parameters
 PARAMETER_DEFAULT: 
 
 PARAMETER_NAME: input_path
-PARAMETER_TYPE: NEW_ATTR
+PARAMETER_TYPE: FILENAME_MUSTEXIST Joblib|*.joblib
 PARAMETER_PROMPT: The location of the machine learning model to be loaded:
 PARAMETER_DEFAULT: 
 
@@ -45,7 +45,7 @@ DYNAMIC_FUNCTION_CONFIGURATION Python import sklearn_predict_transformer
 
 DYNAMIC_FUNCTION_CONFIGURATION Python "sklearn_predict_transformer.__instance__$(FME_UUID) =
    sklearn_predict_transformer.MachineLearningModelTrainer('$(FME_UUID)',{
-    'input_path':'$(input_path)',
+    'input_path':r'$(input_path)',
     None:None})"
 
 FACTORY_DEF * PythonFactory

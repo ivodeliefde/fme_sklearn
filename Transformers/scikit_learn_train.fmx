@@ -63,10 +63,10 @@ DYNAMIC_FUNCTION_CONFIGURATION Python import sklearn_train_transformer
 
 DYNAMIC_FUNCTION_CONFIGURATION Python "sklearn_train_transformer.__instance__$(FME_UUID) =
    sklearn_train_transformer.MachineLearningModelTrainer('$(FME_UUID)',{
-    'model_type':'$(model_type)',
-    'model_architecture':'$(model_architecture)',
-    'target_variable':'$(target_variable)',
-    'output_path':'$(output_path)',
+    'model_type':r'$(model_type)',
+    'model_architecture':r'$(model_architecture)',
+    'target_variable':r'$(target_variable)',
+    'output_path': r'$(output_path)',
     None:None})"
 
 FACTORY_DEF * PythonFactory

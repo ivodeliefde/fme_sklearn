@@ -39,16 +39,14 @@ class MachineLearningModelTrainer(Transformer):
       self.target_variable = self.paramMap()["target_variable"]
       self.model_type = self.paramMap()["model_type"]
       self.model_architecture = self.paramMap()["model_architecture"]
-      self.output_path = eval(repr(self.paramMap()["output_path"]))
-      self.logger.logMessageString("input for sklearn model: {self.model_type} {self.output_path}", fmeobjects.FME_INFORM)
+      self.output_path = self.paramMap()["output_path"]
       self.sk.create_model(self.model_type, self.model_architecture)
       self.x = None
       self.y = None
 
    # Takes a feature and processes it
    def input(self, feature):
-      self.logger.logMessageString("Feature type : "+feature.getAttribute("fme_feature_type"), fmeobjects.FME_INFORM)
-
+   
       # Collect data
       record = {}
       for n in feature.getAllAttributeNames():
@@ -73,8 +71,10 @@ class MachineLearningModelTrainer(Transformer):
 
    def close(self):
       # Fit data to model
+      self.logger.logMessageString("Fit Scikit-learn model", fmeobjects.FME_INFORM)
       self.sk.model.fit(X=self.x, y=self.y)
       # Export model
+      self.logger.logMessageString("Export Scikit-learn model", fmeobjects.FME_INFORM)
       self.sk.export_model(self.output_path)
 
       self.logger.logMessageString("Transformer closed", fmeobjects.FME_INFORM)
