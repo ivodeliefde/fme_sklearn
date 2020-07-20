@@ -6,3 +6,4 @@ __pycache__
 .__pycache__
 *.data
 .pytest_cache
+Data/verblijfsobjecten_gemeente_utrecht.gml
