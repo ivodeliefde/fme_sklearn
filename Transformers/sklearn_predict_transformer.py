@@ -23,9 +23,18 @@
 
 import fmeobjects
 from TransformerUtil import Transformer
-from sklearn_object import sklearn_model
-import numpy as np
-import pandas as pd
+
+try:
+   from sklearn_object import sklearn_model
+except:
+   raise "sklearn transformer not properly installed. Check https://github.com/ivodeliefde/fme_sklearn for installation instructions."
+
+try:
+   import numpy as np
+   import pandas as pd
+except:
+   raise "Dependencies not installed. Run 'fme python -m pip install pandas scikit-learn --user' to resolve this error"
+
 
 #============================================================================
 # Class to perform the overall logic of predicting using a machine learning model.
@@ -41,8 +50,6 @@ class MachineLearningModelTrainer(Transformer):
 
    # Takes a feature and processes it
    def input(self, feature):
-      self.logger.logMessageString("Feature type : "+feature.getAttribute("fme_feature_type"), fmeobjects.FME_INFORM)
-
       # Collect data
       record = {}
       for n in feature.getAllAttributeNames():
@@ -50,9 +57,20 @@ class MachineLearningModelTrainer(Transformer):
             continue
          record[n] = [feature.getAttribute(n)]
       
-      df = pd.DataFrame(data=record)
-      pred = self.sk.model.predict(df)[0]
-      feature.setAttribute("prediction",pred)
+      pd_record = pd.DataFrame(data=record)
+      nonnumeric_data = False
+      try:
+         pd_record = pd_record.apply(pd.to_numeric)
+      except:
+         nonnumeric_data = True
+      
+      if pd_record.isnull().values.any():
+         self.logger.logMessageString("Data contains empty attributes. Skipping feature", fmeobjects.FME_WARN)
+      elif nonnumeric_data:
+         self.logger.logMessageString("Data contains non-numeric attributes. Skipping feature", fmeobjects.FME_WARN)
+      else:
+         pred = self.sk.model.predict(pd_record)[0]
+         feature.setAttribute("prediction", pred)
 
       # Send the feature on its way
       self.pyoutput(feature)

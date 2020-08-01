@@ -23,9 +23,17 @@
 
 import fmeobjects
 from TransformerUtil import Transformer
-from sklearn_object import sklearn_model
-import numpy as np
-import pandas as pd
+
+try:
+   from sklearn_object import sklearn_model
+except:
+   raise "sklearn transformer not properly installed. Check https://github.com/ivodeliefde/fme_sklearn for installation instructions."
+
+try:
+   import numpy as np
+   import pandas as pd
+except:
+   raise "Dependencies not installed. Run 'fme python -m pip install pandas scikit-learn --user' to resolve this error"
 
 #============================================================================
 # Class to perform the overall logic of training a machine learning model.
@@ -55,16 +63,35 @@ class MachineLearningModelTrainer(Transformer):
          record[n] = [feature.getAttribute(n)]
       
       target = record.pop(self.target_variable, None)
-      if self.y is None:
-         self.y = np.array(target)
-      else:
-         self.y = np.append(self.y, target)
+      pd_record = pd.DataFrame(data=record)
+      nonnumeric_data = False
+      try:
+         pd_record = pd_record.apply(pd.to_numeric)
+      except:
+         nonnumeric_data = True
       
-      if self.x is None:
-         self.x = pd.DataFrame(data=record)
+      try:
+         target = pd.to_numeric(target)
+      except:
+         nonnumeric_data = True
+
+      # self.logger.logMessageString(f"Y: {target} {np.isnan(target) }\nX: {pd_record} {pd_record.isnull().values.any()}", fmeobjects.FME_INFORM)
+
+      if np.isnan(target) | pd_record.isnull().values.any():
+         self.logger.logMessageString("Data contains empty attributes. Skipping feature", fmeobjects.FME_WARN)
+      elif nonnumeric_data:
+         self.logger.logMessageString("Data contains non-numeric attributes. Skipping feature", fmeobjects.FME_WARN)
       else:
-         self.x = self.x.append(pd.DataFrame(data=record))
-      
+         if self.y is None:
+            self.y = np.array(target)
+         else:
+            self.y = np.append(self.y, target)
+         
+         if self.x is None:
+            self.x = pd_record
+         else:
+            self.x = self.x.append(pd_record)
+         
       # Send the feature on its way
       self.pyoutput(feature)
 
@@ -74,7 +101,7 @@ class MachineLearningModelTrainer(Transformer):
       """
 
       # Fit data to model
-      self.logger.logMessageString("Fit Scikit-learn model", fmeobjects.FME_INFORM)
+      self.logger.logMessageString(f"Fit Scikit-learn model with {self.x.shape[0]} records", fmeobjects.FME_INFORM)
       self.sk.model.fit(X=self.x, y=self.y)
       # Export model
       self.logger.logMessageString("Export Scikit-learn model", fmeobjects.FME_INFORM)
