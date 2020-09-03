@@ -7,7 +7,7 @@ After you clone this repository you have to install the following libraries to y
 - Scikit-learn
 
 Do this with the following commands:
-`fme python -m pip install pandas scikit-learn --user`
+`fme python -m pip install pandas scikit-learn --target C:\Users\<user>\Documents\FME\Plugins\Python`
 If there are multiple versions of FME installed, make sure to pip install using the correct FME.
 
 Then run `install_transformers.bat`, open FME and look for the transformers called *sklearn_train* & *sklearn_predict*. 
