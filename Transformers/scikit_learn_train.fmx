@@ -23,12 +23,12 @@ PARAMETER_PROMPT: Parameters
 PARAMETER_DEFAULT: 
 
 PARAMETER_NAME: model_type
-PARAMETER_TYPE: LOOKUP_CHOICE Regression,regression%Classification,classification%Clustering,clustering
+PARAMETER_TYPE: LOOKUP_CHOICE Regression,regression%Classification,classification
 PARAMETER_PROMPT: The kind of output the model should deliver (classification, regression or clustering are currently implemented):
 PARAMETER_DEFAULT: 
 
 PARAMETER_NAME: model_architecture
-PARAMETER_TYPE: LOOKUP_CHOICE Linear model,linear%Decision Tree,tree%Support Vector Machine,svm%Stochastic Gradient Descent,sgd%K-means Clustering,k-means
+PARAMETER_TYPE: LOOKUP_CHOICE Linear model,linear%Decision Tree,tree%Support Vector Machine,svm%Stochastic Gradient Descent,sgd
 PARAMETER_PROMPT: The method the model should use (for example, linear, tree or svm):
 PARAMETER_DEFAULT: 
 

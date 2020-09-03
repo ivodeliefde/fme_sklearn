@@ -7,3 +7,5 @@ __pycache__
 *.data
 .pytest_cache
 Data/verblijfsobjecten_gemeente_utrecht.gml
+get-pip.py
+.idea/
