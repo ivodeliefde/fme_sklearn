@@ -62,7 +62,8 @@ class MachineLearningModelTrainer(Transformer):
             pd_record.loc[:, c] = pd.to_numeric(pd_record.loc[:, c], errors='coerce')
 
         pred = self.sk.pipe.predict(pd_record)[0]
-        feature.setAttribute("prediction", pred)
+        feature.setAttribute("prediction",
+                             pred)
 
         # Send the feature on its way
         self.pyoutput(feature)
